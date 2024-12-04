@@ -1,13 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import Register from "./components/User/Register";
-import Login from "./components/User/Login";
-import Home from "./components/Blog/Home";
-import Blog from "./components/Blog/ReadBlog/Blog";
-import Publish from "./components/Blog/Publish";
+import Register from "./components/Blog/pages/User/Register";
+import Login from "./components/Blog/pages/User/Login";
+import Home from "./components/Blog/pages/Home/Home";
+import Blog from "./components/Blog/pages/ReadBlog/Blog";
+import Publish from "./components/Blog/pages/Publish/Publish";
 
-import MyBlogs from "./components/User/MyBlogs";
-
+import MyBlogs from "./components/Blog/pages/User/MyBlogs";
+import NavBar from "./components/NavBar";
 type Blog = {
   title: string;
   content: string;
@@ -18,6 +18,7 @@ type Blog = {
 function App() {
   return (
     <div>
+      <NavBar/>
       <Routes>
         <Route index element={<Home />} />
         <Route path="/blog" element={<Blog />} />

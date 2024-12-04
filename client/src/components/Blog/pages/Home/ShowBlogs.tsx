@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import Search from "./Search";
 import Card from "./Card/Card";
-import { BlogContext } from "./Context/BlogContext";
+import { BlogContext } from "../../Context/BlogContext";
 
 function ShowBlogs() {
   const { blogs, isLoading } = useContext(BlogContext);
