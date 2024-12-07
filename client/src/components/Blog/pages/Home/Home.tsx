@@ -1,8 +1,24 @@
+import { useEffect } from "react";
 import mainImg from "../../../../assets/main-img.jpg";
 import Recent from "./Recent";
 import ShowBlogs from "./ShowBlogs";
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 function Home() {
+  const url = "http://localhost:3000/api/users/home";
+  const navigate = useNavigate();
+  axios.defaults.withCredentials = true;
+  useEffect(() => {
+    axios
+      .get(url)
+      .then((res) => {
+        if(res.data !== 'Success!'){
+          navigate("/login");
+        }
+      })
+      .catch((err) => console.error(err.message));
+  }, []);
+  
   return (
     <div className="px-[50px] lg:px-[120px] w-screen min-h-screen  overscroll-x-none">
       <section className="lg:max-h-screen py-[50px] ">

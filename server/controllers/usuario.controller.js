@@ -1,11 +1,14 @@
 const User = require('../models/register.model.js')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+
+require('dotenv').config()
 
 const createUser = (req, res) => {
-  const { name, email, password } = req.body
+  const { firstName, lastName, email, password } = req.body
   bcrypt.hash(password, 10)
     .then(hash => {
-      User.create({ name, email, password: hash })
+      User.create({ firstName, lastName, email, password: hash })
         .then(user => res.json(user))
         .catch(error => {
           res.status(500).json({ message: error.message })
@@ -16,12 +19,14 @@ const createUser = (req, res) => {
 
 const loginUser = (req, res) => {
   const { email, password } = req.body
-  User.findOne({ email })
+  User.findOne({ email: { $regex: `^${email}$`, $options: 'i' } })
     .then(user => {
       if (user) {
         bcrypt.compare(password, user.password, (err, response) => {
           if (response) {
-            res.json('Success')
+            const token = jwt.sign({ email: user.email }, process.env.JWT_KEY, { expiresIn: '1d' })
+            res.cookie('token', token)
+            res.json('Success!')
           } else {
             res.status(404).json('The password is incorrect', err)
           }
@@ -32,7 +37,19 @@ const loginUser = (req, res) => {
     })
 }
 
+const verifyUser = (req, res, next) => {
+  const token = req.cookies.token
+  if (!token) {
+    return res.json('The token was not available')
+  } else {
+    jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+      if (err) return res.json('Token is wrong')
+      next()
+    })
+  }
+}
 module.exports = {
   createUser,
-  loginUser
+  loginUser,
+  verifyUser
 }
