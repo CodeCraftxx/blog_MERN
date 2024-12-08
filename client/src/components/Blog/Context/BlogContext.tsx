@@ -15,6 +15,7 @@ type Blog2 = {
   author: string;
   createdAt?: string;
 };
+
 type BlogContextType = {
   blogs: Blog[];
   fetchBlogs: () => void;
@@ -43,6 +44,8 @@ const BlogProvider = ({ children }: BlogProviderProps) => {
   const [readBlog, setReadBlog] = useState<Blog[]>([]);
   const navigate = useNavigate();
   const url = "http://localhost:3000/api/blogs"
+
+
   // Fetch blogs from the server
   const fetchBlogs = () => {
     setIsLoading(true);
@@ -85,7 +88,7 @@ const BlogProvider = ({ children }: BlogProviderProps) => {
   }, []);
 
   return (
-    <BlogContext.Provider value={{ blogs, fetchBlogs, postBlog, isLoading, readBlog, readMore }}>
+    <BlogContext.Provider value={{ blogs, fetchBlogs, postBlog, isLoading, readBlog, readMore}}>
       {children}
     </BlogContext.Provider>
   );

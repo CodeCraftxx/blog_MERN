@@ -24,7 +24,7 @@ const loginUser = (req, res) => {
       if (user) {
         bcrypt.compare(password, user.password, (err, response) => {
           if (response) {
-            const token = jwt.sign({ email: user.email }, process.env.JWT_KEY, { expiresIn: '1d' })
+            const token = jwt.sign({ email: user.email, first: user.firstName, last: user.lastName }, process.env.JWT_KEY, { expiresIn: '1d' })
             res.cookie('token', token)
             res.json('Success!')
           } else {
@@ -44,12 +44,20 @@ const verifyUser = (req, res, next) => {
   } else {
     jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
       if (err) return res.json('Token is wrong')
+      req.user = decoded
       next()
     })
   }
 }
+
+const profile = (req, res) => {
+  const profile = { first: req.user.first, last: req.user.last, email: req.user.email }
+  res.json({ message: 'Success!', profile })
+}
+
 module.exports = {
   createUser,
   loginUser,
-  verifyUser
+  verifyUser,
+  profile
 }

@@ -6,9 +6,9 @@ import Home from "./components/Blog/pages/Home/Home";
 import Blog from "./components/Blog/pages/ReadBlog/Blog";
 import Publish from "./components/Blog/pages/Publish/Publish";
 
-import MyBlogs from "./components/Blog/pages/User/MyBlogs";
 import NavBar from "./components/NavBar";
 import UserInfo from "./components/Blog/pages/UserInfo";
+import Ranking from "./components/Blog/pages/Ranking";
 type Blog = {
   title: string;
   content: string;
@@ -28,7 +28,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/publish" element={<Publish />} />
-        <Route path="/my-blogs" element={<MyBlogs />} />
+        <Route path="/ranking" element={<Ranking />} />
         <Route path="/my-account" element={<UserInfo/>}/>
       </Routes>
     </>

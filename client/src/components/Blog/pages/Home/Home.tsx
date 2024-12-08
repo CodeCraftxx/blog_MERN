@@ -1,10 +1,13 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import mainImg from "../../../../assets/main-img.jpg";
 import Recent from "./Recent";
 import ShowBlogs from "./ShowBlogs";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "../../Context/UserContext";
 function Home() {
+  const { setUser } = useContext(UserContext);
+
   const url = "http://localhost:3000/api/users/home";
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
@@ -12,9 +15,10 @@ function Home() {
     axios
       .get(url)
       .then((res) => {
-        if(res.data !== 'Success!'){
+        if(res.data.message !== 'Success!'){
           navigate("/login");
         }
+        setUser(res.data.profile);
       })
       .catch((err) => console.error(err.message));
   }, []);

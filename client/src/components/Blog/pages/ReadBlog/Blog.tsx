@@ -9,7 +9,7 @@ function Blog() {
   return (
     <div className="px-[50px] w-screen min-h-screen  overscroll-x-none">
       {readBlog.map((blog) => (
-        <div className="lg:w-1/2 md:w-2/3 mx-auto py-[100px]">
+        <div key={blog._id} className="lg:w-1/2 md:w-2/3 mx-auto py-[100px]">
           <h1 className="sm:text-6xl text-4xl leading-normal mb-5">
             {blog.title}
           </h1>
