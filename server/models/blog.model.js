@@ -3,7 +3,8 @@ const blog = mongoose.Schema(
   {
     title: { type: String, required: [true, 'title is required'] },
     content: { type: String, required: [true, 'content is required'] },
-    author: { type: String, required: true }
+    author: { type: String, required: true },
+    email: { type: String, required: true }
   },
   {
     timestamps: true

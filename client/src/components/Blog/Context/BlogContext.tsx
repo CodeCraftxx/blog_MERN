@@ -8,12 +8,14 @@ type Blog = {
   content: string;
   author: string;
   createdAt?: string;
+  email: string;
 };
 type Blog2 = {
   title: string;
   content: string;
   author: string;
   createdAt?: string;
+  email?: string;
 };
 
 type BlogContextType = {

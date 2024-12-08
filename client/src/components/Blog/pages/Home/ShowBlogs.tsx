@@ -2,6 +2,7 @@ import { useContext } from "react";
 import Search from "./Search";
 import Card from "./Card/Card";
 import { BlogContext } from "../../Context/BlogContext";
+import moment from 'moment';
 
 function ShowBlogs() {
   const { blogs, isLoading } = useContext(BlogContext);
@@ -23,7 +24,7 @@ function ShowBlogs() {
                   title={blog.title}
                   content={blog.content}
                   author={blog.author}
-                  date={blog.createdAt}
+                  date={moment(blog.createdAt).format('ll')}
                 />
               ))}
         </div>

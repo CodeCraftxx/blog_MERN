@@ -5,11 +5,7 @@ const showBlogs = async (req, res) => {
     const blogs = await Blog.find({})
     const formattedBlogs = blogs.map((blog) => ({
       ...blog.toObject(), // Convierte el documento de Mongoose a un objeto JavaScript
-      createdAt: new Date(blog.createdAt).toLocaleDateString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      })
+      createdAt: new Date()
     }))
     res.json(formattedBlogs)
   } catch (error) {
@@ -25,13 +21,25 @@ const getBlogById = async (req, res) => {
     })
     const formattedBlog = blog.map((blog) => ({
       ...blog.toObject(),
-      createdAt: new Date(blog.createdAt).toLocaleDateString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      })
+      createdAt: new Date()
     }))
     res.json(formattedBlog)
+  } catch (error) {
+    res.status(404).json({ message: error.message })
+  }
+}
+
+const getBlogByUser = async (req, res) => {
+  try {
+    const { email } = req.params
+    const blogs = await Blog.find({
+      email: { $regex: `^${email}$`, $options: 'i' }
+    })
+    const formattedBlogs = blogs.map((blog) => ({
+      ...blog.toObject(), // Convierte el documento de Mongoose a un objeto JavaScript
+      createdAt: new Date()
+    }))
+    res.json(formattedBlogs)
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
@@ -83,6 +91,7 @@ const deleteBlog = async (req, res) => {
 module.exports = {
   showBlogs,
   getBlogById,
+  getBlogByUser,
   createBlog,
   updateBlog,
   deleteBlog

@@ -3,6 +3,7 @@ import InfoInput from "./InfoInput";
 import { UserContext } from "../../Context/UserContext";
 import { BorderColorOutlined } from '@mui/icons-material';
 
+
 function Profile() {
   const { user } = useContext(UserContext);
   return (

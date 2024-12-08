@@ -1,26 +1,27 @@
 import { useContext, useState } from "react";
 import { BlogContext } from "../../Context/BlogContext";
+import { UserContext } from "../../Context/UserContext";
 
 type Blog = {
   title: string;
   content: string;
   author: string;
+  email: string;
 };
 function Publish() {
   const { postBlog } = useContext(BlogContext);
+  const { user } = useContext(UserContext);
   const labelStyle = "font-semibold text-gray-800 block mb-2";
   const inputStyle = "border border-black px-4 py-2 rounded-full w-full";
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("");
 
   const handlePublish = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const blog: Blog = { title, content, author };
+    const blog: Blog = { title, content, author: `${user.first} ${user.last}`, email: user.email };
     postBlog(blog);
     setTitle("");
     setContent("");
-    setAuthor("");
   };
   const handleCancel = () => {
     window.history.back();
@@ -58,13 +59,7 @@ function Publish() {
             <label className={labelStyle} htmlFor="blog-author">
               Author
             </label>
-            <input
-              className={inputStyle}
-              type="text"
-              name="blog-author"
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
-            />
+            <p className={inputStyle}>{user.first} {user.last}</p>
           </div>
           <div className="flex gap-4">
             <button
