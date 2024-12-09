@@ -3,6 +3,7 @@ import ButtonSocial from "./ButtonSocial";
 import ProfilePublish from "../Home/Card/ProfilePublish";
 import { useContext } from "react";
 import { BlogContext } from "../../Context/BlogContext";
+import moment from 'moment';
 
 function Blog() {
   const { readBlog } = useContext(BlogContext);
@@ -13,7 +14,7 @@ function Blog() {
           <h1 className="sm:text-6xl text-4xl leading-normal mb-5">
             {blog.title}
           </h1>
-          <ProfilePublish author={blog.author} date={blog.createdAt} />
+          <ProfilePublish author={blog.author} date={moment(blog.createdAt).format('ll')} />
 
           <div className="my-[2.5rem]">
             <p>{blog.content}</p>

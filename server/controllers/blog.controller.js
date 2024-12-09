@@ -3,11 +3,7 @@ const Blog = require('../models/blog.model.js')
 const showBlogs = async (req, res) => {
   try {
     const blogs = await Blog.find({})
-    const formattedBlogs = blogs.map((blog) => ({
-      ...blog.toObject(), // Convierte el documento de Mongoose a un objeto JavaScript
-      createdAt: new Date()
-    }))
-    res.json(formattedBlogs)
+    res.json(blogs)
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
@@ -19,11 +15,7 @@ const getBlogById = async (req, res) => {
     const blog = await Blog.find({
       _id: id
     })
-    const formattedBlog = blog.map((blog) => ({
-      ...blog.toObject(),
-      createdAt: new Date()
-    }))
-    res.json(formattedBlog)
+    res.json(blog)
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
@@ -35,11 +27,7 @@ const getBlogByUser = async (req, res) => {
     const blogs = await Blog.find({
       email: { $regex: `^${email}$`, $options: 'i' }
     })
-    const formattedBlogs = blogs.map((blog) => ({
-      ...blog.toObject(), // Convierte el documento de Mongoose a un objeto JavaScript
-      createdAt: new Date()
-    }))
-    res.json(formattedBlogs)
+    res.json(blogs)
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
