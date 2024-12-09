@@ -4,7 +4,11 @@ import "./Style.css";
 import ProfilePublish from "./ProfilePublish";
 import { useContext, useState } from "react";
 import { BlogContext } from "../../../Context/BlogContext";
-import { MoreVert } from '@mui/icons-material';
+import { BorderColorOutlined, MoreVert } from "@mui/icons-material";
+import { UserContext } from "../../../Context/UserContext";
+import axios from "axios";
+import { Button } from "@mui/material";
+import AlertDelete from "./AlertDelete";
 
 type Props = {
   id: string;
@@ -12,10 +16,35 @@ type Props = {
   content: string;
   author: string;
   date?: string;
+  email: string;
 };
-function Card({ id, title, content, author, date }: Props) {
-  const { readMore } = useContext(BlogContext);
+function Card({ id, title, content, author, date, email }: Props) {
+  const { readMore, fetchBlogs } = useContext(BlogContext);
+  const { user } = useContext(UserContext);
   const [isClick, setIsClick] = useState(false);
+  const [alertDelete, setAlertDelete] = useState(false);
+  const url = "http://localhost:3000/api/blogs/";
+
+  const handleDelete = (id: string) => {
+    axios
+      .delete(`${url}delete/${id}`)
+      .then((res) => {
+        console.log(res.data.message);
+        fetchBlogs();
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  };
+  const handleChoiceDelete = (choice: boolean) => {
+    if (choice === true) {
+      handleDelete(id);
+      setAlertDelete(false);
+    } else if (choice === false) {
+      setAlertDelete(false);
+    }
+  };
+
   return (
     <div className="flex flex-col justify-between h-60 shadow py-[1.2rem] px-[1.5rem] border rounded-lg relative">
       <div>
@@ -31,15 +60,34 @@ function Card({ id, title, content, author, date }: Props) {
           />
         </div>
       </div>
-      <div>
-        <MoreVert className="absolute top-6 right-1 text-gray-700 cursor-pointer" onClick={() => setIsClick(!isClick)}/>
-        {
-          isClick && <div className="absolute top-12 right-5 text-gray-700 cursor-pointer bg-gray-100 shadow rounded">
-            <p className="hover:bg-gray-300 py-1 px-4 rounded-t">Edit</p>
-            <p className="hover:bg-red-300 text-red-500 py-1 px-4 rounded-b ">Delete</p>
-          </div>
-        }
-      </div>
+      {/* Cambiar diseño despues si no me gusta */}
+      {user.email === email && (
+        <div className="block">
+          <MoreVert
+            className="absolute top-6 right-1 text-gray-700 cursor-pointer"
+            onClick={() => setIsClick(!isClick)}
+          />
+          {isClick && (
+            <div className="absolute top-12 right-5 text-gray-100 cursor-pointer bg-black shadow rounded px-4">
+              <div className="flex gap-1 items-center hover:text-gray-300 pt-3 pb-1  rounded-t">
+              <Button variant="contained">
+                  Edit
+                <BorderColorOutlined
+                  sx={{ fontSize: "17px", marginLeft: "5px" }}
+                />
+                </Button>
+              </div>
+              <div className="hover:text-red-700 text-red-500 pb-3 pt-2  rounded-b ">
+                <Button variant="outlined" color="error" onClick={() => setAlertDelete(true)}>
+                  Delete
+                </Button>
+              </div>
+              {alertDelete && <AlertDelete show={alertDelete} setDelete={(choice) => handleChoiceDelete(choice)}/>}
+            </div>
+          )}
+        </div>
+      )}
+
       <ProfilePublish author={author} date={date} />
     </div>
   );

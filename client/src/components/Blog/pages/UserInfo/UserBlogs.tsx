@@ -19,6 +19,7 @@ function UserBlogs() {
                   content={blog.content}
                   author={blog.author}
                   date={moment(blog.createdAt).format('ll')}
+                  email={blog.email}
                 />
               ))}
         </div>

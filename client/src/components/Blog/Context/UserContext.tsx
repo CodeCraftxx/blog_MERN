@@ -7,6 +7,7 @@ type Blog = {
   content: string;
   author: string;
   createdAt?: string;
+  email: string;
 };
 type User = {
   first: string;
