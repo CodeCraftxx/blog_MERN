@@ -1,0 +1,1 @@
+- Cuando se hace el login, se tiene que recargar la página para poder ver el contenido.

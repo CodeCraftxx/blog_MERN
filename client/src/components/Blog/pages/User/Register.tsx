@@ -101,7 +101,7 @@ function Register() {
               className="special px-[30px] py-[10px] mt-[4rem] mb-[1rem] block m-auto"
               type="submit"
             >
-              <span>Sign in</span>
+              <span>Sign up</span>
             </button>
           </form>
           <p className="md:text-base text-sm text-center text-gray-400">
